@@ -13,13 +13,13 @@ exports.login = function (req, res, next) {
         }
         if (!user) {
         console.log("user ", username, " not found");
-        return res.status(401).send();
+        return res.render("user/register");
         }
         //compare provided password with stored password
         bcrypt.compare(password, user.password, function (err, result) {
         if (result) {
         //if user exists we will write code to create the JWT here
-        let payload = { username: user.username };
+        let payload = { username: username };
         let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET,{expiresIn:300}); 
         res.cookie("jwt", accessToken);
         //and then pass onto the next middleware
